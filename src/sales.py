@@ -9,8 +9,9 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #reading data
-filename = '../data/Input_Sales_Data_v2.csv'
-logo_image = '../images/logo.jpg'
+
+filename = '..\data\Input_Sales_Data_v2.csv'
+logo_image = '..\images\logo.jpg'
 df = pd.read_csv(filename)
 
 #setting config
@@ -51,7 +52,7 @@ weighted_sales = filtered_df \
             .agg(weighted_price=('total_cog', lambda x: x.sum() / filtered_df['Volume'].sum())).reset_index()
 top_manu = weighted_sales.sort_values(by='weighted_price',ascending=False).head(5)
 
-# creating line graph
+#creating line graph
 figsize =(10,4)
 fig = plt.figure(facecolor='lightgray')
 fig, ax = plt.subplots(figsize=figsize)
