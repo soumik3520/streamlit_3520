@@ -6,6 +6,7 @@ from datetime import datetime
 import streamlit as st
 import matplotlib.pyplot as plt
 import warnings
+import os
 warnings.filterwarnings('ignore')
 
 #reading data
@@ -13,6 +14,7 @@ warnings.filterwarnings('ignore')
 filename = '../data/Input_Sales_Data_v2.csv'
 logo_image = '../images/logo.jpg'
 df = pd.read_csv(filename)
+print(os.getcwd())
 
 #setting config
 st.set_page_config(
