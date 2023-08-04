@@ -13,8 +13,9 @@ warnings.filterwarnings('ignore')
 
 filename = '../data/Input_Sales_Data_v2.csv'
 logo_image = '../images/logo.jpg'
-df = pd.read_csv(filename)
 st.write(os.getcwd())
+df = pd.read_csv(filename)
+
 # print(os.getcwd())
 
 #setting config
