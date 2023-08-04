@@ -10,8 +10,8 @@ warnings.filterwarnings('ignore')
 
 #reading data
 
-filename = '..\data\Input_Sales_Data_v2.csv'
-logo_image = '..\images\logo.jpg'
+filename = 'Input_Sales_Data_v2.csv'
+logo_image = 'logo.jpg'
 df = pd.read_csv(filename)
 
 #setting config
