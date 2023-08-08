@@ -1,4 +1,4 @@
-# libraries
+#libraries
 
 import numpy as np
 import pandas as pd
@@ -11,19 +11,16 @@ warnings.filterwarnings('ignore')
 
 #reading data
 
-filename = '../data/Input_Sales_Data_v2.csv'
-logo_image = '../images/logo.jpg'
-st.write(os.getcwd())
-df = pd.read_csv(filename)
-
-# print(os.getcwd())
-
-#setting config
 st.set_page_config(
         page_title="Sales App",
        initial_sidebar_state="expanded",  
        page_icon="🧊",
        )
+
+filename = 'data/Input_Sales_Data_v2.csv'
+logo_image = 'images/logo.jpg'
+
+df = pd.read_csv(filename)
 
 #embedding image
 st.sidebar.image(logo_image,use_column_width=False, width=100,clamp=True)
@@ -32,21 +29,34 @@ st.markdown("<style>img{float: left;}</style>", unsafe_allow_html=True)
 min_date = pd.to_datetime(df['Date'].min()).to_pydatetime()
 max_date = pd.to_datetime(df['Date'].max()).to_pydatetime()
 
-#slider embedding
-selected_date_range = st.slider(
-    "Date Ranges...",
-    min_value = min_date,
-    max_value = max_date,
-    value = (min_date,max_date),
-    format = "YYYY-MM-DD",  
-)
+categories = tuple(df['Category'].unique())
+
+col1, col2 = st.columns(2)
+
+with col1:
+      #slider embedding
+      selected_date_range = st.slider("Date Ranges...",
+                                    min_value = min_date,
+                                    max_value = max_date,
+                                    value = (min_date,max_date),
+                                    format = "YYYY-MM-DD",
+                                    )
+with col2:
+     # inserting a drop down
+     option = st.selectbox('Categories',categories)
+
 # filtering w.r.t date range
+df = df[df['Category']==option]
 filtered_df = df[(pd.to_datetime(df['Date']) >= selected_date_range[0]) 
                  & (pd.to_datetime(df['Date']) <= selected_date_range[1])]
 
 #manufacturer volume and value sales
-df_sales_agg = filtered_df.groupby('Manufacturer') \
-                          .agg({'Volume':'sum','Value':'sum'})
+df_sales_agg = filtered_df \
+                .groupby('Manufacturer') \
+                .agg({'Volume':'sum','Value':'sum'}).sort_values(by='Value',ascending=False)
+df_sales_agg['market_share'] = df_sales_agg['Value'].apply(lambda x: x*100/df_sales_agg['Value'].sum())
+cmap = 'viridis'
+df_sales_agg = df_sales_agg.style.background_gradient(cmap=cmap, subset=['market_share'])
 st.dataframe(df_sales_agg)
 
 # top five manufactures - based on sales
