@@ -98,7 +98,7 @@ def add_logo(png_file):
 
 
 def sidebar_ui():
-    img = "Bacardi-logo.png"
+    img = "logo.png"
     add_logo(img)
 
 
